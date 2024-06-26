@@ -1,0 +1,984 @@
+package calculator;
+
+import java.lang.Math;
+
+import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JRadioButton;
+import java.awt.Font;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+
+
+public class Calculator extends JFrame  {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField display;
+    private Timer timer;
+
+	/**
+	 * Launch the application.
+	 */
+	
+	public static void main(String[] args) {
+		
+		new Calculator();
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Calculator frame = new Calculator();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+
+	/**
+	 * Create the frame.
+	 */
+	public Calculator() {
+		setTitle("Calculator");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 329, 424);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.ORANGE);
+		contentPane.setForeground(Color.BLACK);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		display = new JTextField();
+		display.setBounds(10, 11, 293, 41);
+		contentPane.add(display);
+		display.setColumns(10);
+		display.setHorizontalAlignment(JTextField.CENTER);
+		
+		JButton divide = new JButton("/");
+		divide.setBackground(Color.CYAN);
+		divide.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		divide.setBounds(237, 73, 66, 41);
+		contentPane.add(divide);
+		
+		JButton delete = new JButton("DEL");
+		delete.setForeground(new Color(192, 192, 192));
+		delete.setBackground(Color.RED);
+		delete.setFont(new Font("Tahoma", Font.BOLD, 13));
+		delete.setBounds(161, 73, 66, 41);
+		contentPane.add(delete);
+		
+		JButton clear = new JButton("C");
+		clear.setForeground(new Color(192, 192, 192));
+		clear.setBackground(Color.RED);
+		clear.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		clear.setBounds(85, 73, 66, 41);
+		contentPane.add(clear);
+		
+		JButton multiply = new JButton("× ");
+		multiply.setBackground(Color.CYAN);
+		multiply.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		multiply.setBounds(237, 125, 66, 41);
+		contentPane.add(multiply);
+		
+		JButton reciprocal = new JButton("1/x");
+		reciprocal.setBackground(Color.CYAN);
+		reciprocal.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		reciprocal.setBounds(161, 125, 66, 41);
+		contentPane.add(reciprocal);
+		
+		JButton power_of_two = new JButton("x^2");
+		power_of_two.setBackground(Color.CYAN);
+		power_of_two.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		power_of_two.setBounds(85, 125, 66, 41);
+		contentPane.add(power_of_two);
+		
+		JButton squareroot = new JButton("√");
+		squareroot.setBackground(Color.CYAN);
+		squareroot.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		squareroot.setBounds(10, 125, 66, 41);
+		contentPane.add(squareroot);
+		
+		JButton substraction = new JButton("-");
+		substraction.setBackground(Color.CYAN);
+		substraction.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		substraction.setBounds(237, 177, 66, 41);
+		contentPane.add(substraction);
+		
+		JButton nine = new JButton("9");
+		nine.setForeground(Color.CYAN);
+		nine.setBackground(new Color(47, 79, 79));
+		nine.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		nine.setBounds(161, 177, 66, 41);
+		contentPane.add(nine);
+		
+		JButton eight = new JButton("8");
+		eight.setForeground(Color.cyan);
+		eight.setBackground(new Color(47, 79, 79));
+		eight.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		eight.setBounds(85, 177, 66, 41);
+		contentPane.add(eight);
+		
+		JButton seven = new JButton("7");
+		seven.setForeground(Color.CYAN);
+		seven.setBackground(new Color(47, 79, 79));
+		seven.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		seven.setBounds(10, 177, 66, 41);
+		contentPane.add(seven);
+		
+		JButton addition = new JButton("+");
+		
+		addition.setBackground(Color.CYAN);
+		addition.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		addition.setBounds(237, 229, 66, 41);
+		contentPane.add(addition);
+		
+		JButton six = new JButton("6");
+		six.setForeground(Color.CYAN);
+		six.setBackground(new Color(47, 79, 79));
+		six.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		six.setBounds(163, 229, 66, 41);
+		contentPane.add(six);
+		
+		JButton five = new JButton("5");
+		five.setForeground(Color.CYAN);
+		five.setBackground(new Color(47, 79, 79));
+		five.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		five.setBounds(85, 229, 66, 41);
+		contentPane.add(five);
+		
+		JButton four = new JButton("4");
+		four.setForeground(Color.CYAN);
+		four.setBackground(new Color(47, 79, 79));
+		four.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		four.setBounds(10, 229, 66, 41);
+		contentPane.add(four);
+		
+		JButton three = new JButton("3");
+		three.setForeground(Color.CYAN);
+		three.setBackground(new Color(47, 79, 79));
+		three.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		three.setBounds(161, 281, 66, 41);
+		contentPane.add(three);
+		
+		JButton two = new JButton("2");
+		two.setForeground(Color.CYAN);
+		two.setBackground(new Color(47, 79, 79));
+		two.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		two.setBounds(85, 281, 66, 41);
+		contentPane.add(two);
+		
+		JButton one = new JButton("1");
+		one.setForeground(Color.CYAN);
+		one.setBackground(new Color(47, 79, 79));
+		one.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		one.setBounds(10, 281, 66, 41);
+		contentPane.add(one);
+		
+		JButton dot = new JButton(".");
+		dot.setForeground(Color.CYAN);
+		dot.setBackground(new Color(47, 79, 79));
+		dot.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		dot.setBounds(161, 333, 66, 41);
+		contentPane.add(dot);
+		
+		JButton zero = new JButton("0");
+		zero.setForeground(Color.CYAN);
+		zero.setBackground(new Color(47, 79, 79));
+		zero.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		zero.setBounds(10, 333, 141, 41);
+		contentPane.add(zero);
+		
+		JButton equal = new JButton("=");
+		equal.setForeground(new Color(0, 0, 0));
+		equal.setBackground(Color.CYAN);
+		equal.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		equal.setBounds(237, 281, 66, 93);
+		contentPane.add(equal);
+		
+		JRadioButton calculator_off = new JRadioButton("off");
+		calculator_off.setBackground(Color.ORANGE);
+		calculator_off.setFont(new Font("Tahoma", Font.BOLD, 11));
+		calculator_off.setBounds(10, 91, 66, 23);
+		contentPane.add(calculator_off);
+		
+		JRadioButton calculator_on = new JRadioButton("on");
+		calculator_on.setBackground(Color.ORANGE);
+		calculator_on.setFont(new Font("Tahoma", Font.BOLD, 11));
+		calculator_on.setBounds(10, 73, 58, 23);
+		contentPane.add(calculator_on);
+		
+		
+		
+		
+		calculator_on.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            // Actions to perform when button is clicked
+	        	display.setBackground(Color.WHITE);
+	        	flag = 1;
+	        	display.setVisible(true);
+	        	display.setText("");
+	        	if(calculator_on.isSelected())
+	        		calculator_off.setSelected(false);
+		        	zero.setVisible(true);
+	        		one.setVisible(true);
+	        		two.setVisible(true);
+	        		three.setVisible(true);
+	        		four.setVisible(true);
+	        		five.setVisible(true);
+	        		six.setVisible(true);
+	        		seven.setVisible(true);
+	        		eight.setVisible(true);
+	        		nine.setVisible(true);
+	        		addition.setVisible(true);
+	        		substraction.setVisible(true);
+	        		equal.setVisible(true);
+	        		multiply.setVisible(true);
+	        		divide.setVisible(true);
+	        		power_of_two.setVisible(true);
+	        		reciprocal.setVisible(true);
+	        		squareroot.setVisible(true);
+	        		clear.setVisible(true);
+	        		delete.setVisible(true);
+	        		dot.setVisible(true);
+	        		
+	        		
+	        		
+	        		
+	                timer = new Timer();
+
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        
+
+	                        display.setText("WELCOME");
+	                    }
+	                }, 1000); 
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        display.setText("HAMMAD KHAN LODHI");
+	                    }
+	                }, 2000); 
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        display.setText("");
+	                    }
+	                }, 3000); 
+	        		
+	        		
+	        		
+	        		
+	        		
+	        	
+	        	}
+	    });
+		
+
+		calculator_off.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            // Actions to perform when button is clicked
+	        	
+	        	flag = 0;
+	        	display.setText("");
+	        	
+	        	if(calculator_off.isSelected())
+	        	{
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		timer = new Timer();
+
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        
+
+	                        display.setText("HAVE ");
+	                    }
+	                }, 1000); 
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        
+
+	                        display.setText("A ");
+	                    }
+	                }, 2000); 
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        
+
+	                        display.setText("GREAT");
+	                    }
+	                }, 3000); 
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        
+
+	                        display.setText("DAY");
+	                    }
+	                }, 4000); 
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                        display.setText("HAMMAD KHAN LODHI");
+	                    }
+	                }, 5000); 
+	        		timer.schedule(new TimerTask() {
+	                    @Override
+	                    public void run() {
+	                    	display.setVisible(false);
+	                        display.setText("");
+	                        calculator_on.setSelected(false);
+	    	        		zero.setVisible(false);
+	    	        		one.setVisible(false);
+	    	        		two.setVisible(false);
+	    	        		three.setVisible(false);
+	    	        		four.setVisible(false);
+	    	        		five.setVisible(false);
+	    	        		six.setVisible(false);
+	    	        		seven.setVisible(false);
+	    	        		eight.setVisible(false);
+	    	        		nine.setVisible(false);
+	    	        		addition.setVisible(false);
+	    	        		substraction.setVisible(false);
+	    	        		equal.setVisible(false);
+	    	        		multiply.setVisible(false);
+	    	        		divide.setVisible(false);
+	    	        		power_of_two.setVisible(false);
+	    	        		reciprocal.setVisible(false);
+	    	        		squareroot.setVisible(false);
+	    	        		clear.setVisible(false);
+	    	        		delete.setVisible(false);
+	    	        		dot.setVisible(false);
+	                    }
+	                }, 6000); 
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		
+	        		
+	        	
+	        	}
+	        }
+	    });
+		
+		
+		// Assuming you have JButton objects named one, two, three, four, five, six, seven, eight, zero
+
+		// Mouse listener for each button
+		one.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        one.setBackground(Color.CYAN);
+		        one.setForeground(new Color(47, 79, 79));
+		        one.setToolTipText("Click to add 1"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        one.setForeground(Color.CYAN);
+		        one.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+		two.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        two.setBackground(Color.CYAN);
+		        two.setForeground(new Color(47, 79, 79));
+		        two.setToolTipText("Click to add 2"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        two.setForeground(Color.CYAN);
+		        two.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+		// Repeat the above pattern for three, four, five, six, seven, eight, and zero buttons
+
+		three.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        three.setBackground(Color.CYAN);
+		        three.setForeground(new Color(47, 79, 79));
+		        three.setToolTipText("Click to add 3"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        three.setForeground(Color.CYAN);
+		        three.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+		// Repeat for four, five, six, seven, eight, and zero buttons
+
+		// (Repeat the pattern for buttons four to eight and zero)
+
+		zero.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        zero.setBackground(Color.CYAN);
+		        zero.setForeground(new Color(47, 79, 79));
+		        zero.setToolTipText("Click to add 0"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        zero.setForeground(Color.CYAN);
+		        zero.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+
+			
+		// Assuming you have JButton objects named one, two, three, four, five, six, seven, eight, zero
+
+		// Mouse listener for each button continued...
+
+		four.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        four.setBackground(Color.CYAN);
+		        four.setForeground(new Color(47, 79, 79));
+		        four.setToolTipText("Click to add 4"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        four.setForeground(Color.CYAN);
+		        four.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+		five.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        five.setBackground(Color.CYAN);
+		        five.setForeground(new Color(47, 79, 79));
+		        five.setToolTipText("Click to add 5"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        five.setForeground(Color.CYAN);
+		        five.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+		six.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        six.setBackground(Color.CYAN);
+		        six.setForeground(new Color(47, 79, 79));
+		        six.setToolTipText("Click to add 6"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        six.setForeground(Color.CYAN);
+		        six.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+		seven.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        seven.setBackground(Color.CYAN);
+		        seven.setForeground(new Color(47, 79, 79));
+		        seven.setToolTipText("Click to add 7"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        seven.setForeground(Color.CYAN);
+		        seven.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+		eight.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseEntered(MouseEvent e) {
+		        eight.setBackground(Color.CYAN);
+		        eight.setForeground(new Color(47, 79, 79));
+		        eight.setToolTipText("Click to add 8"); // Set a tooltip text
+		    }
+
+		    @Override
+		    public void mouseExited(MouseEvent e) {
+		        eight.setForeground(Color.CYAN);
+		        eight.setBackground(new Color(47, 79, 79));
+		    }
+		});
+
+
+			
+			
+			
+			
+			nine.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        // Actions to perform when mouse enters the button
+			        nine.setBackground(Color.CYAN);
+			        nine.setForeground(new Color(47, 79, 79));
+			        nine.setToolTipText("Click to add 9"); // Set a tooltip text
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        // Actions to perform when mouse exits the button
+			        nine.setForeground(Color.CYAN);
+			        nine.setBackground(new Color(47, 79, 79));
+			    }
+			});
+
+			
+			dot.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        // Actions to perform when mouse enters the button
+			        dot.setBackground(Color.CYAN);
+			        dot.setForeground(new Color(47, 79, 79));
+			        dot.setToolTipText("Click to add decimal point"); // Set a tooltip text
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        // Actions to perform when mouse exits the button
+			        dot.setForeground(Color.CYAN);
+			        dot.setBackground(new Color(47, 79, 79));
+			    }
+			});
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			// Mouse listener for addition button
+			addition.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        addition.setForeground(Color.CYAN);
+			        addition.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        addition.setForeground(new Color(47, 79, 79));
+			        addition.setBackground(Color.CYAN);
+			    }
+			});
+
+			// Mouse listener for subtraction button
+			substraction.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        substraction.setForeground(Color.CYAN);
+			        substraction.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        substraction.setForeground(new Color(47, 79, 79));
+			        substraction.setBackground(Color.CYAN);
+			    }
+			});
+
+			// Mouse listener for multiply button
+			multiply.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        multiply.setForeground(Color.CYAN);
+			        multiply.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        multiply.setForeground(new Color(47, 79, 79));
+			        multiply.setBackground(Color.CYAN);
+			    }
+			});
+
+			// Repeat similar code blocks for divide, reciprocal, power_of_two, squareroot, equal buttons...
+
+
+
+			// Mouse listener for divide button
+			divide.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        divide.setForeground(Color.CYAN);
+			        divide.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        divide.setForeground(new Color(47, 79, 79));
+			        divide.setBackground(Color.CYAN);
+			    }
+			});
+
+			// Mouse listener for reciprocal button
+			reciprocal.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        reciprocal.setForeground(Color.CYAN);
+			        reciprocal.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        reciprocal.setForeground(new Color(47, 79, 79));
+			        reciprocal.setBackground(Color.CYAN);
+			    }
+			});
+
+			// Mouse listener for power_of_two button
+			power_of_two.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        power_of_two.setForeground(Color.CYAN);
+			        power_of_two.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        power_of_two.setForeground(new Color(47, 79, 79));
+			        power_of_two.setBackground(Color.CYAN);
+			    }
+			});
+
+			// Mouse listener for squareroot button
+			squareroot.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        squareroot.setForeground(Color.CYAN);
+			        squareroot.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        squareroot.setForeground(new Color(47, 79, 79));
+			        squareroot.setBackground(Color.CYAN);
+			    }
+			});
+
+			// Mouse listener for equal button
+			equal.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        equal.setForeground(Color.CYAN);
+			        equal.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        equal.setForeground(new Color(47, 79, 79));
+			        equal.setBackground(Color.CYAN);
+			    }
+			});
+
+
+			// MouseListener setup for clear button
+			clear.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        clear.setForeground(Color.CYAN);
+			        clear.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			    	clear.setForeground(new Color(192, 192, 192));
+					clear.setBackground(Color.RED);
+			    }
+			});
+
+			// MouseListener setup for delete button
+			delete.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        delete.setForeground(Color.CYAN);
+			        delete.setBackground(new Color(47, 79, 79));
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			    	delete.setForeground(new Color(192, 192, 192));
+					delete.setBackground(Color.RED);
+			    }
+			});
+
+			
+			
+			
+			
+			
+			
+			
+
+			
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+
+
+
+
+			
+			one.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "1");
+		        }
+		    });
+			two.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "2");
+		        }
+		    });
+			three.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "3");
+		        }
+		    });
+			four.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "4");
+		        }
+		    });
+			five.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "5");
+		        }
+		    });
+			six.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "6");
+		        }
+		    });
+			seven.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "7");
+		        }
+		    });
+			eight.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + "8");
+		        }
+		    });
+			nine.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText()+ "9");
+		        }
+		    });
+			
+			
+			
+			
+			
+			
+			addition.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	number1 = Double.parseDouble(display.getText());
+		        	display.setText(display.getText()+ " + ");
+		        }
+		    });
+			
+			substraction.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	number1 = Double.parseDouble(display.getText());
+		        	display.setText(display.getText()+ " - ");
+		        }
+		    });
+			multiply.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	number1 = Double.parseDouble(display.getText());
+		        	display.setText(display.getText()+ " * ");
+		        }
+		    });
+			divide.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	number1 = Double.parseDouble(display.getText());
+		        	display.setText(display.getText()+ " / ");
+		        }
+		    });
+			squareroot.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	number1 = Double.parseDouble(display.getText());
+		        	number1 = Math.sqrt(number1);
+		        	display.setText(String.valueOf(number1));
+		        }
+		    });
+			power_of_two.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	number1 = Double.parseDouble(display.getText());
+		        	number1 = number1 * number1; 
+		        	display.setText(String.valueOf(number1));
+		        }
+		    });
+			reciprocal.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	number1 = Double.parseDouble(display.getText());
+		        	number1 = 1 / number1; 
+		        	display.setText(String.valueOf(number1));
+		        }
+		    });
+			dot.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText(display.getText() + ".");
+		        }
+		    });
+			clear.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	display.setText("");
+		        }
+		    });
+			delete.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        String input = display.getText(); // Get the current text from the display
+			        if (input.length() > 0) {
+			            String modified = input.substring(0, input.length() - 1); // Remove the last character
+			            display.setText(modified); // Update the display with the modified text
+			        }
+			    }
+			});
+
+			
+			equal.addActionListener(new ActionListener() {
+		        @Override
+		        public void actionPerformed(ActionEvent e) {
+		            // Actions to perform when button is clicked
+		        	String input = display.getText();
+		        	
+		        	String[] parts = input.split("\\s*[+\\-/]\\s");
+		        	
+		        	if(input.contains("+"))
+		        	{
+		        		number1 =  Double.parseDouble(parts[0]) + Double.parseDouble( parts[1]);
+		        	}
+		        	if(input.contains("-"))
+		        	{
+		        		number1 =  Double.parseDouble(parts[0]) - Double.parseDouble( parts[1]);
+		        	}
+		        	if(input.contains("*"))
+		        	{
+		        		number1 =  Double.parseDouble(parts[0]) * Double.parseDouble( parts[1]);
+		        	}
+		        	if(input.contains("/"))
+		        	{
+		        		number1 =  Double.parseDouble(parts[0]) / Double.parseDouble( parts[1]);
+		        	}
+	        	
+		        	display.setText(String.valueOf(number1));
+		        }
+		    });
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+	
+	
+	
+	
+	int flag = 1;
+    private double number1, number2, result;
+    private char operation;
+    
+	
+
+  
+
+}
